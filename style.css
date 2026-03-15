@@ -1,0 +1,319 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  font-family: 'Libre Baskerville', 'Georgia', 'Times New Roman', serif;
+  background: #c9a0a0;
+}
+
+.shell {
+  position: fixed;
+  inset: 0;
+  background: #c9a0a0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding-top: 7vh;
+}
+
+.shell-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 35%, transparent 20%, rgba(0,0,0,0.12) 100%);
+  pointer-events: none;
+}
+
+.hinge-area {
+  width: 100%;
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+}
+
+.hinge-area svg {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 50%;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.hinge {
+  width: 240px;
+  height: 12px;
+  background: linear-gradient(180deg,
+    #4a4240 0%, #6b6260 15%, #9e9290 35%, #b8b0a8 50%,
+    #9e9290 65%, #6b6260 85%, #4a4240 100%);
+  border-radius: 3px;
+  position: relative;
+  z-index: 15;
+  box-shadow:
+    0 0 6px rgba(0,0,0,0.3),
+    inset 0 1px 1px rgba(255,255,255,0.2),
+    inset 0 -1px 1px rgba(0,0,0,0.2);
+}
+
+.hinge::after {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 12%;
+  right: 12%;
+  height: 1px;
+  background: rgba(255,255,255,0.25);
+  border-radius: 1px;
+}
+
+.bezel {
+  border-radius: 50%;
+  background: linear-gradient(160deg, #b8b0a8 0%, #9e9690 40%, #8a8278 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  box-shadow:
+    0 0 30px 8px rgba(237, 233, 222, 0.5),
+    0 0 60px 20px rgba(237, 233, 222, 0.25),
+    0 0 100px 40px rgba(237, 233, 222, 0.1),
+    0 2px 8px rgba(0,0,0,0.15),
+    inset 0 1px 1px rgba(255,255,255,0.2);
+}
+
+.bezel-glow {
+  position: absolute;
+  inset: -20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(247,243,232,0.3) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.screen {
+  border-radius: 50%;
+  background: radial-gradient(circle at 45% 40%, #f7f3e8 0%, #ede9de 50%, #ddd8cb 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  box-shadow:
+    inset 0 2px 6px rgba(0,0,0,0.08),
+    inset 0 -1px 3px rgba(255,255,255,0.25);
+}
+
+.screen-hotspot {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 48% 42%, rgba(255,252,240,0.35) 0%, transparent 55%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.screen-grain {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background-repeat: repeat;
+  pointer-events: none;
+  z-index: 3;
+  mix-blend-mode: multiply;
+}
+
+.text-clip {
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+  border-top: 2px solid rgba(0,0,0,0.25);
+  border-bottom: 2px solid rgba(0,0,0,0.25);
+}
+
+.text-body {
+  position: absolute;
+  left: 0;
+  top: 0;
+  word-wrap: break-word;
+  font-size: 11px;
+  line-height: 1.45;
+  color: #5c564f;
+  letter-spacing: 0.01em;
+  font-family: 'Libre Baskerville', 'Georgia', 'Times New Roman', serif;
+}
+
+.library-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.library-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.library-panel {
+  width: 85%;
+  max-width: 340px;
+  max-height: 75vh;
+  background: #ede9de;
+  border-radius: 16px;
+  padding: 24px 20px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: auto;
+  transform: translateY(20px);
+  transition: transform 0.25s ease;
+}
+
+.library-overlay.open .library-panel {
+  transform: translateY(0);
+}
+
+.library-panel h2 {
+  font-size: 16px;
+  color: #3a3530;
+  font-weight: 700;
+  margin: 0;
+}
+
+.library-panel p {
+  font-size: 11px;
+  color: #8a8278;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.upload-btn {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  border: 2px dashed #b8b0a8;
+  border-radius: 10px;
+  background: transparent;
+  color: #5c564f;
+  font-family: 'Libre Baskerville', 'Georgia', serif;
+  font-size: 13px;
+  cursor: pointer;
+  text-align: center;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.upload-btn:active {
+  background: rgba(0,0,0,0.04);
+  border-color: #8a8278;
+}
+
+.book-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  background: rgba(255,255,255,0.5);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.book-item:active {
+  background: rgba(255,255,255,0.8);
+}
+
+.book-title {
+  font-size: 12px;
+  color: #3a3530;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.book-delete {
+  background: none;
+  border: none;
+  color: #b8a0a0;
+  font-size: 16px;
+  padding: 4px 8px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.close-library {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: #c9a0a0;
+  color: #fff;
+  font-family: 'Libre Baskerville', 'Georgia', serif;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.library-btn {
+  position: fixed;
+  bottom: 28px;
+  right: 24px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(160deg, #b8b0a8 0%, #8a8278 100%);
+  box-shadow:
+    0 2px 10px rgba(0,0,0,0.2),
+    0 0 20px 4px rgba(237, 233, 222, 0.25),
+    inset 0 1px 1px rgba(255,255,255,0.25);
+  color: #f5f0eb;
+  font-size: 20px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 50;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.library-btn:active {
+  transform: scale(0.92);
+  box-shadow:
+    0 1px 5px rgba(0,0,0,0.2),
+    0 0 10px 2px rgba(237, 233, 222, 0.15),
+    inset 0 1px 1px rgba(255,255,255,0.2);
+}
+
+.library-btn svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: #f5f0eb;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}

@@ -1,0 +1,22 @@
+{
+  "name": "Clamshell Reader",
+  "short_name": "Clamshell",
+  "description": "A retro e-ink dual-screen reader",
+  "start_url": ".",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#c9a0a0",
+  "theme_color": "#c9a0a0",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
